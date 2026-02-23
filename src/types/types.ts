@@ -4,3 +4,15 @@ export type User = {
 	avatar: string;
 	id: number;
 };
+
+export type Tasks = {
+	id?: number;
+	title: string;
+	status: "pending" | "done";
+	userID: number;
+};
+
+export type InitialTasksData = {
+	tasks: Tasks[];
+	filter: "all" | "pending" | "done";
+};
