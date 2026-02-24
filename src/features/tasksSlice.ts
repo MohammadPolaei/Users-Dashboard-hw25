@@ -29,6 +29,9 @@ const tasksSlice = createSlice({
 		setFilter: (state, action) => {
 			state.filter = action.payload;
 		},
+		showUserTask: (state, action) => {
+			state.tasks = state.tasks.filter((task) => task.userID == action.payload);
+		},
 	},
 });
 export const { addTask, removeTask, toggleTaskStatus, setFilter } =

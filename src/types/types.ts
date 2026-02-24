@@ -16,3 +16,10 @@ export type InitialTasksData = {
 	tasks: Tasks[];
 	filter: "all" | "pending" | "done";
 };
+
+export type TaskListType = {
+	tasks: Tasks[];
+	onToggle?: (id?: number) => void;
+	onDelete?: (id?: number) => void;
+	onAddClick?: () => void;
+};
