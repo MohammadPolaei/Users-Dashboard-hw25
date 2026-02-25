@@ -6,7 +6,7 @@ export type User = {
 };
 
 export type Tasks = {
-	id?: number;
+	id: number;
 	title: string;
 	status: "pending" | "done";
 	userID: number;
@@ -14,12 +14,8 @@ export type Tasks = {
 
 export type InitialTasksData = {
 	tasks: Tasks[];
-	filter: "all" | "pending" | "done";
+	selectedUserId: number | null;
 };
-
-export type TaskListType = {
-	tasks: Tasks[];
-	onToggle?: (id?: number) => void;
-	onDelete?: (id?: number) => void;
-	onAddClick?: () => void;
+export type InitialTasksToShowData = {
+	tasksToShow: Tasks[];
 };

@@ -1,27 +1,25 @@
+import { Typography } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useDispatch, useSelector } from "react-redux";
 import DashboardLayout from "../layout/DashboardLayout";
-import type { InitialTasksData } from "../types/types";
-import TaskList from "./TaskList";
+import TaskList from "./tasks/TaskList";
 import UsersList from "./users/UsersList";
 import UserSearch from "./UserSearch";
 
 function MainContent() {
 	const queryClient = new QueryClient();
-	const dispatch = useDispatch();
-	const tasks = useSelector((state: InitialTasksData) => state.tasks);
 
 	return (
-		<div>
+		<div style={{ backgroundColor: "#08f1" }}>
 			<DashboardLayout>
 				<QueryClientProvider client={queryClient}>
 					<UserSearch
 						value="Search"
 						onChange={() => console.log("change in searchbar")}
 					/>
-
+					<Typography variant="h6">Users List :</Typography>
 					<UsersList />
-					<TaskList tasks={tasks} />
+					<Typography variant="h6">Tasks :</Typography>
+					<TaskList />
 				</QueryClientProvider>
 			</DashboardLayout>
 		</div>

@@ -1,14 +1,17 @@
 import { Box, Grid, Paper } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from "../../features/tasksSlice";
+import { useDispatch } from "react-redux";
+import { setSelectedUser } from "../../features/tasksSlice";
 import { useUsers } from "../../hooks/useUsers";
-import type { InitialTasksData, User } from "../../types/types";
+import type { User } from "../../types/types";
 import UserCard from "./UserCard";
 
 function UsersList() {
 	const dispatch = useDispatch();
-	const tasks = useSelector((state: InitialTasksData) => state.tasks);
 	const { data, isError, isLoading } = useUsers();
+	// filter
+	const handleFilter = (userID: number) => {
+		dispatch(setSelectedUser(userID));
+	};
 	if (isError) {
 		return (
 			<div
@@ -65,10 +68,8 @@ function UsersList() {
 				<Grid container spacing={3}>
 					{data.map((user: User) => (
 						<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
-							<UserCard
-								user={user}
-								onSelect={() => dispatch(setFilter(user.id))}
-							/>
+							<div>{user.id}</div>
+							<UserCard user={user} onSelect={() => handleFilter(user.id)} />
 						</Grid>
 					))}
 				</Grid>
