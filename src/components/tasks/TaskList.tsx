@@ -6,9 +6,10 @@ import {
 	Paper,
 	Typography,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "../../features/tasksSlice";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
+import AddTaskModal from "./addTaskModal";
 
 function TaskList() {
 	const { tasks, selectedUserId } = useSelector(
@@ -19,20 +20,20 @@ function TaskList() {
 			? tasks.filter((t) => t.userID === Number(selectedUserId))
 			: tasks;
 
-	const dispatch = useDispatch();
 	// handle onAddClick
-	const onAddClick = (userID: number | null) => {
-		userID ? dispatch(addTask(userID)) : null;
+	const onAddClick = () => {
+		setModalOpen(!modalOpen);
 	};
+
+	// handle modal open
+
+	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
 		<div>
 			<Paper sx={{ mt: 3, p: 2 }}>
 				<Typography>Tasks:</Typography>
-				<Button
-					variant="contained"
-					onClick={() => onAddClick(Number(selectedUserId))}
-				>
+				<Button variant="contained" onClick={() => onAddClick}>
 					+ Add Task
 				</Button>
 				<List>
@@ -44,6 +45,7 @@ function TaskList() {
 						</ListItem>
 					))}
 				</List>
+				<AddTaskModal />
 			</Paper>
 		</div>
 	);

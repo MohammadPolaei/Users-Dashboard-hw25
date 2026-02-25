@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -5,6 +6,9 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { animated, useSpring } from "@react-spring/web";
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask } from "../../features/tasksSlice";
+import type { RootState } from "../../store/store";
 
 interface FadeProps {
 	children: React.ReactElement<any>;
@@ -62,7 +66,32 @@ const style = {
 	p: 4,
 };
 
-export default function SpringModal() {
+export default function AddTaskModal() {
+	// use userID
+
+	const { selectedUserId } = useSelector((state: RootState) => state.task);
+	const dispatch = useDispatch();
+
+	// add task
+
+	const handleAddTask = (givenUserId: number | null) => {
+		dispatch(
+			addTask({
+				id: 2,
+				title: value,
+				status: "pending",
+				userID: Number(givenUserId),
+			})
+		);
+	};
+	// input value
+	const [value, setValue] = React.useState("");
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setValue(e.target.value);
+	};
+
+	//
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -86,11 +115,21 @@ export default function SpringModal() {
 				<Fade in={open}>
 					<Box sx={style}>
 						<Typography id="spring-modal-title" variant="h6" component="h2">
-							Text in a modal
+							Add Task :
 						</Typography>
-						<Typography id="spring-modal-description" sx={{ mt: 2 }}>
-							Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-						</Typography>
+						<TextField
+							id="outlined-basic"
+							label="Outlined"
+							variant="outlined"
+							value={value}
+							onChange={handleChange}
+						/>
+						<Button
+							variant="contained"
+							onClick={() => handleAddTask(selectedUserId)}
+						>
+							Add into Tasks
+						</Button>
 					</Box>
 				</Fade>
 			</Modal>
