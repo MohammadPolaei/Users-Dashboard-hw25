@@ -64,7 +64,7 @@ function UsersList() {
 		);
 	} else {
 		return (
-			<Paper sx={{ mt: 3, p: 2, height: "320px", overflow: "scroll" }}>
+			<Paper sx={{ my: 3, p: 2, height: "320px", overflow: "scroll" }}>
 				<Grid container spacing={3}>
 					{data.map((user: User) => (
 						<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>

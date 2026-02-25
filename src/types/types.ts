@@ -15,7 +15,5 @@ export type Tasks = {
 export type InitialTasksData = {
 	tasks: Tasks[];
 	selectedUserId: number | null;
-};
-export type InitialTasksToShowData = {
-	tasksToShow: Tasks[];
+	nextID: number;
 };

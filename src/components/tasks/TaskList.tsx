@@ -1,17 +1,44 @@
-import {
-	Button,
-	Checkbox,
-	List,
-	ListItem,
-	Paper,
-	Typography,
-} from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { Checkbox, Stack, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import type { GridColDef } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTaskStatus } from "../../features/tasksSlice";
 import type { RootState } from "../../store/store";
-import AddTaskModal from "./addTaskModal";
+import AddTaskModal from "./AddTaskModal";
 
-function TaskList() {
+export default function TaskList() {
+	// global state
+	const dispatch = useDispatch();
+	const columns: GridColDef<(typeof rows)[number]>[] = [
+		{ field: "id", headerName: "ID", width: 90 },
+		{
+			field: "title",
+			headerName: "Task title",
+			width: 500,
+			editable: false,
+		},
+		{
+			field: "status",
+			headerName: "Status",
+			width: 150,
+			renderCell: (params) => {
+				const isDone = params.row.status === "done";
+
+				return (
+					<Stack direction="row" alignItems="center" spacing={1}>
+						<Checkbox
+							checked={isDone}
+							onChange={() => dispatch(toggleTaskStatus(params.row.id))}
+						/>
+						<Typography variant="body2">
+							{isDone ? "Done ✔" : "Pending . . ."}
+						</Typography>
+					</Stack>
+				);
+			},
+		},
+	];
 	const { tasks, selectedUserId } = useSelector(
 		(state: RootState) => state.task
 	);
@@ -19,36 +46,36 @@ function TaskList() {
 		selectedUserId !== null
 			? tasks.filter((t) => t.userID === Number(selectedUserId))
 			: tasks;
-
-	// handle onAddClick
-	const onAddClick = () => {
-		setModalOpen(!modalOpen);
-	};
-
-	// handle modal open
-
-	const [modalOpen, setModalOpen] = useState(false);
-
+	// rows data
+	const rows = tasksToShow;
 	return (
-		<div>
-			<Paper sx={{ mt: 3, p: 2 }}>
-				<Typography>Tasks:</Typography>
-				<Button variant="contained" onClick={() => onAddClick}>
-					+ Add Task
-				</Button>
-				<List>
-					{tasksToShow?.map((t) => (
-						<ListItem key={t.id}>
-							<Checkbox checked={t.status === "done"} onChange={() => {}} />
-							{t.title}
-							<Button onClick={() => {}}>Delete</Button>
-						</ListItem>
-					))}
-				</List>
-				<AddTaskModal />
-			</Paper>
-		</div>
+		<Box sx={{ height: 400, width: "100%", background: "white" }}>
+			<div
+				style={{
+					height: "100px",
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+			>
+				{selectedUserId && <AddTaskModal />}
+			</div>
+
+			<DataGrid
+				rows={rows}
+				columns={columns}
+				initialState={{
+					pagination: {
+						paginationModel: {
+							pageSize: 5,
+						},
+					},
+				}}
+				pageSizeOptions={[5]}
+				checkboxSelection
+				disableRowSelectionOnClick
+			/>
+		</Box>
 	);
 }
-
-export default TaskList;

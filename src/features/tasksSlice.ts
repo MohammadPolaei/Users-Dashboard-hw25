@@ -4,6 +4,7 @@ import type { InitialTasksData } from "../types/types";
 const initialState: InitialTasksData = {
 	tasks: [{ id: 1, title: "task title", status: "pending", userID: 1 }],
 	selectedUserId: null,
+	nextID: 2,
 };
 
 const tasksSlice = createSlice({
@@ -12,6 +13,8 @@ const tasksSlice = createSlice({
 	reducers: {
 		addTask: (state, action) => {
 			state.tasks.push(action.payload);
+
+			state.nextID++;
 		},
 		removeTask: (state, action) => {
 			state.tasks = state.tasks.filter((task) => task.id != action.payload);
