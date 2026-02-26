@@ -90,7 +90,10 @@ export default function TaskList() {
 				<Typography variant="h6" sx={{ padding: "5px" }}>
 					Tasks List
 					{selectedUserId !== null && (
-						<span style={{ color: "#8888" }}> : {userToShow[0].name}</span>
+						<span style={{ color: "#8888" }}>
+							{" "}
+							: {userToShow ? userToShow[0].name : null}
+						</span>
 					)}
 				</Typography>
 				{selectedUserId && <AddTaskModal />}
