@@ -22,8 +22,17 @@ export default function UserCard({ user, onSelect }: UserCardType) {
 			/>
 
 			<CardContent>
-				<Typography variant="h6">{user.name}</Typography>
-				<Typography variant="body2" color="text.secondary">
+				<Typography
+					variant="h6"
+					sx={{ fontSize: "14px", overflow: "hidden", height: "25px" }}
+				>
+					{user.name}
+				</Typography>
+				<Typography
+					variant="body2"
+					color="text.secondary"
+					sx={{ fontSize: "10px" }}
+				>
 					{user.email}
 				</Typography>
 

@@ -64,7 +64,6 @@ export default function TaskList() {
 		<Box
 			sx={{
 				height: 400,
-				width: "100%",
 				background: "white",
 				my: 3,
 				p: 2,

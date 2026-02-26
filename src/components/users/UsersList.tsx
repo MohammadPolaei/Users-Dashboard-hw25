@@ -1,5 +1,6 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
+import logo from "../../../public/loading-animation-8.gif";
 import { setSelectedUser } from "../../features/tasksSlice";
 import { useUsers } from "../../hooks/useUsers";
 import type { User } from "../../types/types";
@@ -28,13 +29,14 @@ function UsersList({ searchValue }: { searchValue: string }) {
 			>
 				<Box
 					sx={{
-						width: "50%",
-						height: 200,
+						width: "80%",
+						height: "220px",
 						borderRadius: 5,
 						p: 10,
-						backgroundColor: "#a002",
+						backgroundColor: "#aaa2",
 						textAlign: "center",
 						fontSize: 30,
+						color: "red",
 					}}
 				>
 					ERROR occurred !
@@ -53,8 +55,8 @@ function UsersList({ searchValue }: { searchValue: string }) {
 			>
 				<Box
 					sx={{
-						width: "50%",
-						height: 200,
+						width: "80%",
+						height: "220px",
 						borderRadius: 5,
 						p: 10,
 						backgroundColor: "#aaa2",
@@ -62,7 +64,10 @@ function UsersList({ searchValue }: { searchValue: string }) {
 						fontSize: 30,
 					}}
 				>
-					Loading . . .
+					<img src={logo} style={{ width: "50px" }} alt="loading..." />
+					<p style={{ fontSize: "15px", color: "#0008" }}>
+						loading users . . .{" "}
+					</p>
 				</Box>
 			</div>
 		);

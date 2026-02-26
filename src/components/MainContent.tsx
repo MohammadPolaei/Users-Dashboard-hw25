@@ -19,7 +19,6 @@ function MainContent() {
 							setSearchValue(e.target.value)
 						}
 					/>
-					{searchValue}
 					<UsersList searchValue={searchValue} />
 					<TaskList />
 				</QueryClientProvider>
