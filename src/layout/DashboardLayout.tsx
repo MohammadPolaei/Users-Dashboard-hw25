@@ -1,7 +1,6 @@
 import {
 	AppBar,
 	Box,
-	Button,
 	Container,
 	IconButton,
 	Toolbar,
@@ -18,9 +17,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
 					<Box>
 						<IconButton color="inherit"></IconButton>
-						<Button variant="outlined" color="inherit" sx={{ ml: 2 }}>
-							Dark Mode
-						</Button>
 					</Box>
 				</Toolbar>
 			</AppBar>

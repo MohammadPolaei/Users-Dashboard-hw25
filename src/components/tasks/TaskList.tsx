@@ -1,13 +1,28 @@
-import { Button, Checkbox, Stack, Typography } from "@mui/material";
+import { Button, Checkbox, Paper, Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import type { GridColDef } from "@mui/x-data-grid";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTask, toggleTaskStatus } from "../../features/tasksSlice";
+import { useUsers } from "../../hooks/useUsers";
 import type { RootState } from "../../store/store";
+import type { User } from "../../types/types";
 import AddTaskModal from "./AddTaskModal";
 
 export default function TaskList() {
+	const { tasks, selectedUserId } = useSelector(
+		(state: RootState) => state.task
+	);
+	const tasksToShow =
+		selectedUserId !== null
+			? tasks.filter((t) => t.userID === Number(selectedUserId))
+			: tasks;
+	// user data
+	const { data } = useUsers();
+	const userToShow = data?.filter(
+		(user: User) => user.id == Number(selectedUserId)
+	);
+
 	// global state
 	const dispatch = useDispatch();
 	const columns: GridColDef<(typeof rows)[number]>[] = [
@@ -51,26 +66,18 @@ export default function TaskList() {
 			},
 		},
 	];
-	const { tasks, selectedUserId } = useSelector(
-		(state: RootState) => state.task
-	);
-	const tasksToShow =
-		selectedUserId !== null
-			? tasks.filter((t) => t.userID === Number(selectedUserId))
-			: tasks;
 	// rows data
 	const rows = tasksToShow;
 	return (
-		<Box
+		<Paper
 			sx={{
 				height: 400,
-				background: "white",
 				my: 3,
 				p: 2,
 				pb: 20,
 			}}
 		>
-			<div
+			<Box
 				style={{
 					width: "100%",
 					display: "flex",
@@ -82,9 +89,12 @@ export default function TaskList() {
 			>
 				<Typography variant="h6" sx={{ padding: "5px" }}>
 					Tasks List
+					{selectedUserId !== null && (
+						<span style={{ color: "#8888" }}> : {userToShow[0].name}</span>
+					)}
 				</Typography>
 				{selectedUserId && <AddTaskModal />}
-			</div>
+			</Box>
 
 			<DataGrid
 				rows={rows}
@@ -100,6 +110,6 @@ export default function TaskList() {
 				checkboxSelection
 				disableRowSelectionOnClick
 			/>
-		</Box>
+		</Paper>
 	);
 }
