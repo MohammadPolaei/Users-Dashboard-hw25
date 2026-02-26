@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setSelectedUser } from "../../features/tasksSlice";
 import { useUsers } from "../../hooks/useUsers";
@@ -64,11 +64,17 @@ function UsersList() {
 		);
 	} else {
 		return (
-			<Paper sx={{ my: 3, p: 2, height: "320px", overflow: "scroll" }}>
-				<Grid container spacing={3}>
+			<Paper sx={{ my: 3, p: 2 }}>
+				<Typography variant="h6" sx={{ padding: "5px" }}>
+					Users List
+				</Typography>
+				<Grid
+					container
+					spacing={3}
+					sx={{ height: "320px", overflow: "scroll" }}
+				>
 					{data.map((user: User) => (
 						<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
-							<div>{user.id}</div>
 							<UserCard user={user} onSelect={() => handleFilter(user.id)} />
 						</Grid>
 					))}

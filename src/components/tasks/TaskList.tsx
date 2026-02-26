@@ -1,9 +1,9 @@
-import { Checkbox, Stack, Typography } from "@mui/material";
+import { Button, Checkbox, Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import type { GridColDef } from "@mui/x-data-grid";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTaskStatus } from "../../features/tasksSlice";
+import { removeTask, toggleTaskStatus } from "../../features/tasksSlice";
 import type { RootState } from "../../store/store";
 import AddTaskModal from "./AddTaskModal";
 
@@ -38,6 +38,18 @@ export default function TaskList() {
 				);
 			},
 		},
+		{
+			field: "remove",
+			headerName: "Remove Task",
+			width: 150,
+			renderCell: (params) => {
+				return (
+					<Button onClick={() => dispatch(removeTask(params.row.id))}>
+						Remove task
+					</Button>
+				);
+			},
+		},
 	];
 	const { tasks, selectedUserId } = useSelector(
 		(state: RootState) => state.task
@@ -49,16 +61,29 @@ export default function TaskList() {
 	// rows data
 	const rows = tasksToShow;
 	return (
-		<Box sx={{ height: 400, width: "100%", background: "white" }}>
+		<Box
+			sx={{
+				height: 400,
+				width: "100%",
+				background: "white",
+				my: 3,
+				p: 2,
+				pb: 20,
+			}}
+		>
 			<div
 				style={{
-					height: "100px",
+					width: "100%",
 					display: "flex",
 					flexDirection: "row",
-					justifyContent: "center",
+					justifyContent: "space-between",
 					alignItems: "center",
+					paddingBottom: "10px",
 				}}
 			>
+				<Typography variant="h6" sx={{ padding: "5px" }}>
+					Tasks List
+				</Typography>
 				{selectedUserId && <AddTaskModal />}
 			</div>
 
