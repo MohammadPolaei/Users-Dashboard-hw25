@@ -6,7 +6,7 @@ export default function UserSearch({
 	onChange,
 }: {
 	value: string;
-	onChange: () => void;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
 	return (
 		<Paper sx={{ p: 2, mb: 3 }}>

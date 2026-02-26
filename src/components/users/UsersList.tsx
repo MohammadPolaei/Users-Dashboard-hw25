@@ -5,13 +5,17 @@ import { useUsers } from "../../hooks/useUsers";
 import type { User } from "../../types/types";
 import UserCard from "./UserCard";
 
-function UsersList() {
+function UsersList({ searchValue }: { searchValue: string }) {
 	const dispatch = useDispatch();
 	const { data, isError, isLoading } = useUsers();
-	// filter
+	// filter tasks by user
 	const handleFilter = (userID: number) => {
 		dispatch(setSelectedUser(userID));
 	};
+	// filter user by search
+	const filteredUsers = data?.filter((user: User) =>
+		user.name.toLowerCase().includes(searchValue.toLowerCase())
+	);
 	if (isError) {
 		return (
 			<div
@@ -73,11 +77,30 @@ function UsersList() {
 					spacing={3}
 					sx={{ height: "320px", overflow: "scroll" }}
 				>
-					{data.map((user: User) => (
-						<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
-							<UserCard user={user} onSelect={() => handleFilter(user.id)} />
-						</Grid>
-					))}
+					{filteredUsers == null ? (
+						data.map((user: User) => (
+							<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
+								<UserCard user={user} onSelect={() => handleFilter(user.id)} />
+							</Grid>
+						))
+					) : filteredUsers.length < 1 ? (
+						<div
+							style={{
+								width: "100%",
+								height: "100%",
+								textAlign: "center",
+								color: "red",
+							}}
+						>
+							No User Found by "{searchValue}" !
+						</div>
+					) : (
+						filteredUsers.map((user: User) => (
+							<Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={user.id}>
+								<UserCard user={user} onSelect={() => handleFilter(user.id)} />
+							</Grid>
+						))
+					)}
 				</Grid>
 			</Paper>
 		);
